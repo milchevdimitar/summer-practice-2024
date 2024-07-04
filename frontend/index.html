@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diploma Project Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Welcome to Diploma Project Management</h1>
+        <div id="register">
+            <h2>Register</h2>
+            <input type="email" id="registerEmail" placeholder="Email">
+            <input type="password" id="registerPassword" placeholder="Password">
+            <select id="registerRole">
+                <option value="student">Student</option>
+                <option value="supervisor">Supervisor</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button onclick="register()">Register</button>
+            <p id="registerMessage"></p>
+        </div>
+        <div id="login">
+            <h2>Login</h2>
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p id="loginMessage"></p>
+        </div>
+        <div id="topics" style="display:none;">
+            <h2>Topics</h2>
+            <button onclick="fetchTopics()">Fetch Topics</button>
+            <ul id="topicsList"></ul>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
