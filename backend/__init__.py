@@ -16,10 +16,11 @@ def create_app():
     api = Api(app)
 
     # Регистрация на ресурсите
-    from .resources import UserRegister, UserLogin, TopicResource
+    from .resources import UserRegister, UserLogin, TopicResource, AdminResource
     api.add_resource(UserRegister, '/register')
     api.add_resource(UserLogin, '/login')
     api.add_resource(TopicResource, '/topics')
+    api.add_resource(AdminResource, '/admin')
 
     # Създаване на таблиците в базата данни
     with app.app_context():

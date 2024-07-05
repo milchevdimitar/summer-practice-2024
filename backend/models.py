@@ -7,9 +7,18 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.String(20), nullable=False)  # 'student', 'supervisor', 'admin'
+    role = db.Column(db.String(20), nullable=False)
     topics = db.relationship('Topic', backref='student', lazy=True)
     tasks = db.relationship('Task', backref='student', lazy=True)
+
+    def is_student(self):
+        return self.role == 'student'
+
+    def is_supervisor(self):
+        return self.role == 'supervisor'
+
+    def is_admin(self):
+        return self.role == 'admin'
 
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
