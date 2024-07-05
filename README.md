@@ -18,3 +18,7 @@
 - Frontend: HTML, CSS и JavaScript за създаване на потребителския интерфейс.
 - База данни: SQL база данни за съхранение на информацията за потребителите, темите, задачите и коментарите.
 - Допълнителни инструменти: Интеграция с календари за управление на задачите, система за известия и напомняния.
+
+![Entity Domain Diagram](./readmeimages/Entity_Domain_Diagram.png)
+
+![BPMN Diagram](./readmeimages/BPMN_Diagram.png)
