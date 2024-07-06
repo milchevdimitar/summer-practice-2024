@@ -9,10 +9,10 @@ from models import db
 
 def create_app():
     app = Flask(__name__)
-    cors = CORS(app, resources={r"/*": {"origins": "*"}})  # This will enable CORS for all routes and all origins
+    cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
     app.config.from_object(Config)
-    app.config['JWT_SECRET_KEY'] = '123'  # replace 'your-secret-key' with your actual secret key
+    app.config['JWT_SECRET_KEY'] = '123'
 
     # Initialize the extensions
     db.init_app(app)

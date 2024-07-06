@@ -18,7 +18,7 @@ def add_student():
 
     new_student = User(
         email=email,
-        password=generate_password_hash("123"),  # Използваме хеширане на паролите
+        password=generate_password_hash("123"),
         role="student"
     )
     db.session.add(new_student)
