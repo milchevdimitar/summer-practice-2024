@@ -21,4 +21,6 @@
 
 ![Entity Domain Diagram](./.readmeimages/Entity_Domain_Diagram.png)
 
-![BPMN Diagram](./.readmeimages/BPMN_Diagram.png)
+<p align="center">
+  <img src="./.readmeimages/BPMN_Diagram.png" alt="BPMN Diagram">
+</p>
