@@ -10,7 +10,6 @@ from models import db
 def create_app():
     app = Flask(__name__)
     cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
     app.config.from_object(Config)
     app.config['JWT_SECRET_KEY'] = '123'
 

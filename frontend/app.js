@@ -1,4 +1,11 @@
-const apiBaseUrl = 'http://127.0.0.1:5000';
+const apiBaseUrl = 'http://localhost:5000';
+
+
+window.onload = function() {
+    document.getElementById('registerButton').addEventListener('click', register);
+    document.getElementById('loginButton').addEventListener('click', login);
+    document.getElementById('fetchTopicsButton').addEventListener('click', fetchTopics);
+}
 
 window.register = async function register() {
     try {
@@ -22,7 +29,7 @@ window.register = async function register() {
     }
 }
 
-window.register = async function login() {
+window.login = async function login() {
     try {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
@@ -50,7 +57,7 @@ window.register = async function login() {
     }
 }
 
-window.register = async function fetchTopics() {
+window.fetchTopics = async function fetchTopics() {
     try {
         const token = localStorage.getItem('access_token');
 
@@ -71,5 +78,31 @@ window.register = async function fetchTopics() {
         });
     } catch (error) {
         console.error('An error occurred:', error);
+    }
+}
+
+window.createTopic = async function createTopic() {
+    try {
+        const token = localStorage.getItem('access_token');
+        const topic = document.getElementById('topic').value;
+
+        const response = await fetch(`${apiBaseUrl}/topics`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ topic })
+        });
+
+        const data = await response.json();
+        document.getElementById('createTopicMessage').innerText = data.message;
+
+        if (response.ok) {
+            fetchTopics();
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+        document.getElementById('createTopicMessage').innerText = 'An error occurred. Please try again.';
     }
 }

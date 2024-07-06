@@ -60,6 +60,34 @@ class TopicResource(Resource):
         return {'message': 'Topic created successfully'}, 201
 
     @jwt_required()
+    def put(self, topic_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('title', required=True, help="This field cannot be blank.")
+        parser.add_argument('description', required=False)
+        data = parser.parse_args()
+
+        topic = Topic.query.get(topic_id)
+        if not topic:
+            return {'message': 'Topic not found'}, 404
+
+        topic.title = data['title']
+        topic.description = data.get('description')
+        db.session.commit()
+
+        return {'message': 'Topic updated successfully'}, 200
+
+    @jwt_required()
+    def delete(self, topic_id):
+        topic = Topic.query.get(topic_id)
+        if not topic:
+            return {'message': 'Topic not found'}, 404
+
+        db.session.delete(topic)
+        db.session.commit()
+
+        return {'message': 'Topic deleted successfully'}, 200
+
+    @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
@@ -76,4 +104,31 @@ class AdminResource(Resource):
         user = User.query.get(user_id)
         if not user.is_admin():
             return {'message': 'Admin access is required'}, 403
-        # ... admin only actions
+
+    @jwt_required()
+    def put(self, topic_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('title', required=True, help="This field cannot be blank.")
+        parser.add_argument('description', required=False)
+        data = parser.parse_args()
+
+        topic = Topic.query.get(topic_id)
+        if not topic:
+            return {'message': 'Topic not found'}, 404
+
+        topic.title = data['title']
+        topic.description = data.get('description')
+        db.session.commit()
+
+        return {'message': 'Topic updated successfully'}, 200
+
+    @jwt_required()
+    def delete(self, topic_id):
+        topic = Topic.query.get(topic_id)
+        if not topic:
+            return {'message': 'Topic not found'}, 404
+
+        db.session.delete(topic)
+        db.session.commit()
+
+        return {'message': 'Topic deleted successfully'}, 200

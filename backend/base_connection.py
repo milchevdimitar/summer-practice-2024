@@ -10,7 +10,7 @@ def create_app():
     return app
 
 def add_student():
-    email = "dimitar.v.milchev.2020@elsys-bg.org"
+    email = "milchevdimitar@gmail.com"
     existing_user = User.query.filter_by(email=email).first()
     if existing_user is not None:
         print(f"A user with the email {email} already exists.")
@@ -19,7 +19,7 @@ def add_student():
     new_student = User(
         email=email,
         password=generate_password_hash("123"),
-        role="student"
+        role="supervisor"
     )
     db.session.add(new_student)
     db.session.commit()
