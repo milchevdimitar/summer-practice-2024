@@ -8,7 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     role = db.Column(db.String(20), nullable=False)
-    topics = db.relationship('Topic', backref='student', lazy=True)
+    topics = db.relationship('Topic', backref='student', lazy=True, foreign_keys='Topic.student_id')
     tasks = db.relationship('Task', backref='student', lazy=True)
 
     def is_student(self):
