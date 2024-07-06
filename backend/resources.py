@@ -43,59 +43,26 @@ class UserLogin(Resource):
 class TopicResource(Resource):
     @jwt_required()
     def post(self):
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if not user.is_student():
+            return {'message': 'Only students can propose topics'}, 403
+
         parser = reqparse.RequestParser()
         parser.add_argument('title', required=True, help="This field cannot be blank.")
         parser.add_argument('description', required=False)
         data = parser.parse_args()
 
-        user_id = get_jwt_identity()
         topic = Topic(
             title=data['title'],
             description=data.get('description'),
-            student_id=user_id
+            student_id=user_id,
+            approved=False  # Topics are not approved by default
         )
         db.session.add(topic)
         db.session.commit()
 
-        return {'message': 'Topic created successfully'}, 201
-
-    @jwt_required()
-    def put(self, topic_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('title', required=True, help="This field cannot be blank.")
-        parser.add_argument('description', required=False)
-        data = parser.parse_args()
-
-        topic = Topic.query.get(topic_id)
-        if not topic:
-            return {'message': 'Topic not found'}, 404
-
-        topic.title = data['title']
-        topic.description = data.get('description')
-        db.session.commit()
-
-        return {'message': 'Topic updated successfully'}, 200
-
-    @jwt_required()
-    def delete(self, topic_id):
-        topic = Topic.query.get(topic_id)
-        if not topic:
-            return {'message': 'Topic not found'}, 404
-
-        db.session.delete(topic)
-        db.session.commit()
-
-        return {'message': 'Topic deleted successfully'}, 200
-
-    @jwt_required()
-    def get(self):
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        if user.is_admin():
-            topics = Topic.query.all()
-        else:
-            topics = Topic.query.filter_by(student_id=user_id).all()
-        return {'topics': [topic.title for topic in topics]}, 200
+        return {'message': 'Topic proposed successfully'}, 201
 
 class AdminResource(Resource):
     @jwt_required
@@ -107,28 +74,16 @@ class AdminResource(Resource):
 
     @jwt_required()
     def put(self, topic_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('title', required=True, help="This field cannot be blank.")
-        parser.add_argument('description', required=False)
-        data = parser.parse_args()
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if not user.is_admin():
+            return {'message': 'Admin access is required'}, 403
 
         topic = Topic.query.get(topic_id)
         if not topic:
             return {'message': 'Topic not found'}, 404
 
-        topic.title = data['title']
-        topic.description = data.get('description')
+        topic.approved = True
         db.session.commit()
 
-        return {'message': 'Topic updated successfully'}, 200
-
-    @jwt_required()
-    def delete(self, topic_id):
-        topic = Topic.query.get(topic_id)
-        if not topic:
-            return {'message': 'Topic not found'}, 404
-
-        db.session.delete(topic)
-        db.session.commit()
-
-        return {'message': 'Topic deleted successfully'}, 200
+        return {'message': 'Topic approved successfully'}, 200

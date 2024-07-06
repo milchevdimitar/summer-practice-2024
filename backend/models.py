@@ -25,7 +25,7 @@ class Topic(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=True)
     student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    approved = db.Column(db.Boolean, default=False)
+    approved = db.Column(db.Boolean, default=False)  # This field is already present
     supervisor_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     supervisor = db.relationship('User', foreign_keys=[supervisor_id])
 

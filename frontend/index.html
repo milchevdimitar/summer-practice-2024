@@ -8,7 +8,6 @@
     <link rel="icon" href="tues_logo_transperent-500x500.png">
 </head>
 <body>
-<script src="app.js"></script>
 <div id="app">
     <h1>Welcome to Diploma Project Management</h1>
     <div id="register">
@@ -34,7 +33,27 @@
         <h2>Topics</h2>
         <button id="fetchTopicsButton">Fetch Topics</button>
         <ul id="topicsList"></ul>
+        <div id="createTopic">
+            <h3>Create Topic</h3>
+            <input type="text" id="topicTitle" placeholder="Title">
+            <textarea id="topicDescription" placeholder="Description"></textarea>
+            <button id="createTopicButton">Create Topic</button>
+            <p id="createTopicMessage"></p>
+        </div>
+        <div id="chooseTopic">
+            <h3>Choose Topic</h3>
+            <input type="number" id="topicId" placeholder="Topic ID">
+            <button id="chooseTopicButton">Choose Topic</button>
+            <p id="chooseTopicMessage"></p>
+        </div>
+        <div id="abandonTopic">
+            <h3>Abandon Topic</h3>
+            <input type="number" id="abandonTopicId" placeholder="Topic ID">
+            <button id="abandonTopicButton">Abandon Topic</button>
+            <p id="abandonTopicMessage"></p>
+        </div>
     </div>
 </div>
+<script src="app.js"></script>
 </body>
 </html>
