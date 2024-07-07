@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { register } from '../services/auth';
-import './Register.css';
+import '../styles/Register.css';
 
 function Register() {
   const [email, setEmail] = useState('');

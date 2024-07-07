@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import './TopicManager.css';
+import '../styles/TopicManager.css';
 
 function TopicManager() {
   const [topics, setTopics] = useState([]);

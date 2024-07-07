@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import './TopicSelection.css';
+import '../styles/TopicSelection.css';
 
 function TopicSelection() {
   const [topics, setTopics] = useState([]);

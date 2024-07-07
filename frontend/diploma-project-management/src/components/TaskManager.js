@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './TaskManager.css';
+import '../styles/TaskManager.css';
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AdvisorSelection.css';
+import '../styles/AdvisorSelection.css';
 
 function AdvisorSelection() {
   const [advisors, setAdvisors] = useState([]);
