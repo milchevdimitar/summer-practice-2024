@@ -1,0 +1,10 @@
+/* src/styles/taskManager.css */
+
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    margin-bottom: 10px;
+}

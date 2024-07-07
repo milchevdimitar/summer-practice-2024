@@ -1,0 +1,10 @@
+/* src/styles/topicManager.css */
+
+.topic-manager-list {
+    list-style: none;
+    padding: 0;
+}
+
+.topic-manager-item {
+    margin-bottom: 10px;
+}

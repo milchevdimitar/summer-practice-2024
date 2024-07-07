@@ -1,0 +1,10 @@
+/* src/styles/advisorSelection.css */
+
+.advisor-list {
+    list-style: none;
+    padding: 0;
+}
+
+.advisor-item {
+    margin-bottom: 10px;
+}
