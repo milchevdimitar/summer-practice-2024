@@ -64,6 +64,20 @@ class TopicResource(Resource):
 
         return {'message': 'Topic proposed successfully'}, 201
 
+    @jwt_required()
+    def get(self):
+        topics = Topic.query.all()
+        topics_list = [
+            {
+                'id': topic.id,
+                'title': topic.title,
+                'description': topic.description,
+                'approved': topic.approved,
+                'supervisor_id': topic.supervisor_id
+            } for topic in topics
+        ]
+        return {'topics': topics_list}, 200
+
 class AdminResource(Resource):
     @jwt_required
     def get(self):

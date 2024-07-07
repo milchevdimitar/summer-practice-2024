@@ -76,22 +76,22 @@ window.login = async function login() {
 window.fetchTopics = async function fetchTopics() {
     try {
         const token = localStorage.getItem('access_token');
-
         const response = await fetch(`${apiBaseUrl}/topics`, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         const data = await response.json();
+        console.log('API Response:', data); // Log the response data
+
         const topicsList = document.getElementById('topicsList');
         topicsList.innerHTML = '';
 
         if (data && Array.isArray(data.topics)) {
             data.topics.forEach(topic => {
                 const li = document.createElement('li');
-                li.innerText = topic;
+                li.innerText = `${topic.title} - Supervisor ID: ${topic.supervisor_id}`;
                 topicsList.appendChild(li);
             });
         } else {
