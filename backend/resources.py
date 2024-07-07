@@ -42,62 +42,83 @@ class UserLogin(Resource):
 
 class TopicResource(Resource):
     @jwt_required()
-    def post(self):
+    def get(self):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
-        if not user.is_student():
-            return {'message': 'Only students can propose topics'}, 403
+        if user.is_student():
+            topics = Topic.query.filter_by(student_id=user_id).all()
+            topics_list = [
+                {'id': topic.id, 'title': topic.title, 'approved': topic.approved}
+                for topic in topics
+            ]
+            return {'topics': topics_list}, 200
+        elif user.is_admin():
+            topics = Topic.query.all()
+            topics_list = [
+                {
+                    'id': topic.id,
+                    'title': topic.title,
+                    'student_name': User.query.get(topic.student_id).email,
+                    'approved': topic.approved
+                }
+                for topic in topics
+            ]
+            return {'topics': topics_list}, 200
+        else:
+            return {'message': 'Access denied'}, 403
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('title', required=True, help="This field cannot be blank.")
-        parser.add_argument('description', required=False)
-        data = parser.parse_args()
-
-        topic = Topic(
-            title=data['title'],
-            description=data.get('description'),
-            student_id=user_id,
-            approved=False  # Topics are not approved by default
-        )
-        db.session.add(topic)
-        db.session.commit()
-
-        return {'message': 'Topic proposed successfully'}, 201
-
+class AdminTopicManagementResource(Resource):
     @jwt_required()
     def get(self):
-        topics = Topic.query.all()
-        topics_list = [
-            {
-                'id': topic.id,
-                'title': topic.title,
-                'description': topic.description,
-                'approved': topic.approved,
-                'supervisor_id': topic.supervisor_id
-            } for topic in topics
-        ]
-        return {'topics': topics_list}, 200
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if user.is_admin():
+            topics = Topic.query.all()
+            topics_list = [
+                {
+                    'id': topic.id,
+                    'title': topic.title,
+                    'student_name': User.query.get(topic.student_id).email,  # Assuming email as student name
+                    'approved': topic.approved
+                } for topic in topics if not topic.approved  # Only show not approved topics
+            ]
+            return {'topics': topics_list}, 200
+        else:
+            return {'message': 'Admin access is required'}, 403
+
+    @jwt_required()
+    def put(self, topic_id, action):
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if user.is_admin():
+            topic = Topic.query.get(topic_id)
+            if not topic:
+                return {'message': 'Topic not found'}, 404
+            if action == 'approve':
+                topic.approved = True
+                db.session.commit()
+                return {'message': 'Topic approved successfully'}, 200
+            elif action == 'reject':
+                # Assuming rejection means deleting the topic
+                db.session.delete(topic)
+                db.session.commit()
+                return {'message': 'Topic rejected and removed successfully'}, 200
+            else:
+                return {'message': 'Invalid action'}, 400
+        else:
+            return {'message': 'Admin access is required'}, 403
 
 class AdminResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
-        if not user.is_admin():
+        if user.is_admin():
+            users = User.query.all()
+            users_list = [
+                {'id': user.id, 'email': user.email, 'role': user.role}
+                for user in users
+            ]
+            return {'users': users_list}, 200
+        else:
             return {'message': 'Admin access is required'}, 403
-
-    @jwt_required()
-    def put(self, topic_id):
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        if not user.is_admin():
-            return {'message': 'Admin access is required'}, 403
-
-        topic = Topic.query.get(topic_id)
-        if not topic:
-            return {'message': 'Topic not found'}, 404
-
-        topic.approved = True
-        db.session.commit()
-
-        return {'message': 'Topic approved successfully'}, 200

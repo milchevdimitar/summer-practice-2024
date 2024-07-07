@@ -1,10 +1,17 @@
 const apiBaseUrl = 'http://localhost:5000';
 
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('registerButton').addEventListener('click', register);
     document.getElementById('loginButton').addEventListener('click', login);
     document.getElementById('fetchTopicsButton').addEventListener('click', fetchTopics);
     document.getElementById('createTopicButton').addEventListener('click', createTopic);
+
+    if (userIsAdmin()) {
+        document.getElementById('adminSection').style.display = 'block';
+    } else {
+        document.getElementById('userSection').style.display = 'block';
+    }
+
     document.getElementById('chooseTopicButton').addEventListener('click', function() {
         const topicId = document.getElementById('topicId').value;
         if (topicId) {
@@ -13,6 +20,7 @@ window.onload = function() {
             console.error('Topic ID is required');
         }
     });
+
     document.getElementById('abandonTopicButton').addEventListener('click', function() {
         const topicId = document.getElementById('abandonTopicId').value;
         if (topicId) {
@@ -21,7 +29,23 @@ window.onload = function() {
             console.error('Topic ID is required');
         }
     });
-}
+
+    fetchTopics(); // This will load topics into either the admin or user section
+});
+
+window.userIsAdmin = function() {
+    return localStorage.getItem('user_role') === 'admin';
+};
+
+window.logout = function() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_role');
+    // Redirect to login page or update UI
+    document.getElementById('topics').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+    document.getElementById('register').style.display = 'block';
+    alert('You have been logged out.');
+};
 
 window.register = async function register() {
     try {
@@ -63,6 +87,8 @@ window.login = async function login() {
 
         if (response.ok) {
             localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('user_role', data.user_role);
+            document.getElementById('currentUserEmail').innerText = email;
             document.getElementById('topics').style.display = 'block';
             document.getElementById('login').style.display = 'none';
             document.getElementById('register').style.display = 'none';
@@ -74,33 +100,83 @@ window.login = async function login() {
 }
 
 window.fetchTopics = async function fetchTopics() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error('No access token found');
+        return;
+    }
+    const response = await fetch(`${apiBaseUrl}/topics`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    const data = await response.json();
+    const topicsList = document.getElementById('topicsList');
+    topicsList.innerHTML = '';
+
+    if (data && Array.isArray(data.topics)) {
+        data.topics.forEach(topic => {
+            const li = document.createElement('li');
+            li.innerText = userIsAdmin() ?
+                `${topic.title} - Student: ${topic.student_name} - Approved: ${topic.approved}` :
+                `${topic.title} - Approved: ${topic.approved}`;
+            topicsList.appendChild(li);
+        });
+    } else {
+        console.error('data.topics is undefined or not an array');
+    }
+};
+
+window.approveTopic = async function approveTopic(topicId) {
     try {
         const token = localStorage.getItem('access_token');
-        const response = await fetch(`${apiBaseUrl}/topics`, {
-            method: 'GET',
+        const response = await fetch(`${apiBaseUrl}/admin/topics/${topicId}/approve`, {
+            method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
+
         const data = await response.json();
-        console.log('API Response:', data); // Log the response data
-
-        const topicsList = document.getElementById('topicsList');
-        topicsList.innerHTML = '';
-
-        if (data && Array.isArray(data.topics)) {
-            data.topics.forEach(topic => {
-                const li = document.createElement('li');
-                li.innerText = `${topic.title} - Supervisor ID: ${topic.supervisor_id}`;
-                topicsList.appendChild(li);
-            });
+        if (data && data.message) {
+            alert(data.message); // Or update the UI accordingly
         } else {
-            console.error('data.topics is undefined or not an array');
+            console.error('Unexpected response:', data);
+        }
+
+        if (response.ok) {
+            fetchTopics(); // Refresh the topics list to reflect the changes
         }
     } catch (error) {
         console.error('An error occurred:', error);
     }
-}
+};
+
+window.rejectTopic = async function rejectTopic(topicId) {
+    try {
+        const token = localStorage.getItem('access_token');
+        const response = await fetch(`${apiBaseUrl}/admin/topics/${topicId}/reject`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        if (data && data.message) {
+            alert(data.message); // Or update the UI accordingly
+        } else {
+            console.error('Unexpected response:', data);
+        }
+
+        if (response.ok) {
+            fetchTopics(); // Refresh the topics list to reflect the changes
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+};
 
 window.createTopic = async function createTopic() {
     try {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Topic Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="tues_logo_transperent-500x500.png">
+</head>
+<body>
+<script src="app.js"></script>
+<div id="currentUser" style="position: absolute; right: 10px; top: 10px;">
+    <span id="currentUserEmail"></span>
+    <button onclick="logout()">Logout</button>
+</div>
+<div id="adminSection" style="display:none;">
+    <h2>Admin Panel</h2>
+    <button id="fetchTopicsButton">Refresh Topics</button>
+    <div id="adminTopics"></div>
+    <div id="allUsers"></div>
+</div>
+<div id="userSection">
+    <h2>User Topics</h2>
+    <div id="topicsList"></div>
+</div>
+<div id="loginSection" style="display:none;">
+    <h2>Login</h2>
+    <input type="text" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button id="loginButton">Login</button>
+    <div id="loginMessage"></div>
+</div>
+<div id="registerSection" style="display:none;">
+    <h2>Register</h2>
+    <input type="text" id="registerEmail" placeholder="Email">
+    <input type="password" id="registerPassword" placeholder="Password">
+    <select id="registerRole">
+        <option value="student">Student</option>
+        <option value="admin">Admin</option>
+    </select>
+    <button id="registerButton">Register</button>
+    <div id="registerMessage"></div>
+</div>
+</body>
+</html>

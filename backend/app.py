@@ -19,7 +19,7 @@ def create_app():
     api = Api(app)
 
     # Register the resources
-    from resources import UserRegister, UserLogin, TopicResource, AdminResource
+    from resources import UserRegister, UserLogin, TopicResource, AdminTopicManagementResource, AdminResource
     api.add_resource(UserRegister, '/register')
     api.add_resource(UserLogin, '/login')
     api.add_resource(TopicResource, '/topics')
