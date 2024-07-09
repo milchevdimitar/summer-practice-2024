@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/TaskManager.css';
+import { fetchTasks } from '../services/taskService';
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    // Логика за зареждане на задачите
-  }, []);
-
+useEffect(() => {
+  const getTasks = async () => {
+    let tasks = await fetchTasks();
+    if (!Array.isArray(tasks)) {
+      tasks = [];
+    }
+    setTasks(tasks);
+  };
+  getTasks();
+}, []);
   return (
     <div>
       <h2>Задачи и срокове</h2>

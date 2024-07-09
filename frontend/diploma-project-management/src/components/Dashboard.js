@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Dashboard.css';
-import api from '../services/api'; // Assuming this is the path to your API service
+import { fetchTasks } from '../services/taskService.js';
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api.js';
 
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await api.get('/tasks'); // Adjust '/tasks' based on your API endpoint
-        setTasks(response.data);
-      } catch (error) {
-        console.error("Failed to fetch tasks", error);
+    const getTasks = async () => {
+      let tasks = await fetchTasks();
+      if (!Array.isArray(tasks)) {
+        tasks = [];
       }
+      setTasks(tasks);
     };
-
-    fetchTasks();
+    getTasks();
   }, []);
 
   return (

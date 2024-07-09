@@ -9,18 +9,20 @@ function Login() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await login(email, password);
-      localStorage.setItem('access_token', response.data.access_token);
-      localStorage.setItem('user_role', response.data.user_role);
-      navigate('/dashboard');
-    } catch (error) {
-      setMessage('An error occurred. Please try again.');
-      console.error('An error occurred:', error);
-    }
-  };
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      try {
+        const success = await login(email, password);
+        if (success) {
+          navigate('/');
+        } else {
+          setMessage('Login failed. Please check your credentials and try again.');
+        }
+      } catch (error) {
+        setMessage(`An error occurred: ${error.message}. Please try again.`);
+        console.error('An error occurred:', error);
+      }
+    };
 
   return (
     <div>

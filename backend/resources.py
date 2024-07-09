@@ -1,9 +1,7 @@
-# backend/resources.py
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User, Topic, Task
-
 
 class UserRegister(Resource):
     def post(self):
@@ -69,24 +67,6 @@ class TopicResource(Resource):
 
 class AdminTopicManagementResource(Resource):
     @jwt_required()
-    def get(self):
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        if user.is_admin():
-            topics = Topic.query.all()
-            topics_list = [
-                {
-                    'id': topic.id,
-                    'title': topic.title,
-                    'student_name': User.query.get(topic.student_id).email,  # Assuming email as student name
-                    'approved': topic.approved
-                } for topic in topics if not topic.approved  # Only show not approved topics
-            ]
-            return {'topics': topics_list}, 200
-        else:
-            return {'message': 'Admin access is required'}, 403
-
-    @jwt_required()
     def put(self, topic_id, action):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
@@ -99,7 +79,6 @@ class AdminTopicManagementResource(Resource):
                 db.session.commit()
                 return {'message': 'Topic approved successfully'}, 200
             elif action == 'reject':
-                # Assuming rejection means deleting the topic
                 db.session.delete(topic)
                 db.session.commit()
                 return {'message': 'Topic rejected and removed successfully'}, 200
@@ -122,3 +101,27 @@ class AdminResource(Resource):
             return {'users': users_list}, 200
         else:
             return {'message': 'Admin access is required'}, 403
+
+class TaskResource(Resource):
+    @jwt_required()
+    def get(self):
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if user.is_student():
+            tasks = Task.query.filter_by(student_id=user_id).all()
+            tasks_list = [
+                {'id': task.id, 'title': task.title, 'deadline': task.deadline.isoformat()}
+                for task in tasks
+            ]
+            return {'tasks': tasks_list}, 200
+        elif user.is_supervisor():
+            tasks = Task.query.all()
+            tasks_list = [
+                {'id': task.id,
+                 'title': task.title,
+                 'deadline': task.deadline.isoformat()}
+                for task in tasks
+            ]
+            return {'tasks': tasks_list}, 200
+        else:
+            return {'message': 'Access denied'}, 403

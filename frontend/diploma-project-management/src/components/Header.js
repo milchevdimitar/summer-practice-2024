@@ -19,7 +19,7 @@ function Header() {
       <h1>Платформа за дипломни работи</h1>
       <nav>
         <ul>
-          <li><Link to="/dashboard">Начало</Link></li>
+          <li><Link to="/">Начало</Link></li>
           <li><Link to="/topic-selection">Избор на тема</Link></li>
           <li><Link to="/advisor-selection">Избор на ръководител</Link></li>
           <li><Link to="/tasks">Задачи и срокове</Link></li>

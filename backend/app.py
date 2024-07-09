@@ -1,4 +1,3 @@
-# backend/app.py
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -6,6 +5,15 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
+from resources import UserRegister, UserLogin, TopicResource, AdminResource, TaskResource, AdminTopicManagementResource
+from datetime import datetime
+import json
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 def create_app():
     app = Flask(__name__)
@@ -19,11 +27,12 @@ def create_app():
     api = Api(app)
 
     # Register the resources
-    from resources import UserRegister, UserLogin, TopicResource, AdminTopicManagementResource, AdminResource
     api.add_resource(UserRegister, '/register')
     api.add_resource(UserLogin, '/login')
     api.add_resource(TopicResource, '/topics')
     api.add_resource(AdminResource, '/admin')
+    api.add_resource(TaskResource, '/tasks')
+    api.add_resource(AdminTopicManagementResource, '/admin/topics/<int:topic_id>/<string:action>')
 
     # Create the database tables
     with app.app_context():
@@ -32,6 +41,7 @@ def create_app():
     return app
 
 app = create_app()
+app.json_encoder = CustomJSONEncoder
 
 if __name__ == '__main__':
     print(app.url_map)

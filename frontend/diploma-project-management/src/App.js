@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,24 +10,38 @@ import Register from './components/Register';
 import TaskManager from './components/TaskManager';
 import TopicManager from './components/TopicManager';
 
+const setAuthToken = (token) => {
+    if (token) {
+        localStorage.setItem('access_token', token);
+    } else {
+        localStorage.removeItem('access_token');
+    }
+};
+
 function App() {
-  return (
-    <Router>
-      <div>
-        <Header />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/topic-selection" element={<TopicSelection />} />
-          <Route path="/advisor-selection" element={<AdvisorSelection />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/tasks" element={<TaskManager />} />
-          <Route path="/topic-manager" element={<TopicManager />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
-  );
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            setAuthToken(token);
+        }
+    }, []);
+      return (
+        <Router>
+          <div>
+            <Header />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/topic-selection" element={<TopicSelection />} />
+              <Route path="/advisor-selection" element={<AdvisorSelection />} />
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/tasks" element={<TaskManager />} />
+              <Route path="/topic-manager" element={<TopicManager />} />
+            </Routes>
+            <Footer />
+          </div>
+        </Router>
+      );
 }
 
 export default App;
