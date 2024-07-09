@@ -20,10 +20,9 @@ function Header() {
       <nav>
         <ul>
           <li><Link to="/">Начало</Link></li>
-          <li><Link to="/topic-selection">Избор на тема</Link></li>
-          <li><Link to="/advisor-selection">Избор на ръководител</Link></li>
+          <li><Link to="/topic-selection">Теми</Link></li>
+          <li><Link to="/advisor-selection">Ръководители</Link></li>
           <li><Link to="/tasks">Задачи и срокове</Link></li>
-          <li><button onClick={logout}>Изход</button></li>
         </ul>
       </nav>
     </header>

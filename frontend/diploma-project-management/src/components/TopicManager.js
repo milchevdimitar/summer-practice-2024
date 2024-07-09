@@ -23,16 +23,7 @@ function TopicManager() {
     try {
       const response = await api.put(`/admin/topics/${topicId}/approve`);
       setMessage(response.data.message);
-      fetchTopics();
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
-  };
-
-  const rejectTopic = async (topicId) => {
-    try {
-      const response = await api.put(`/admin/topics/${topicId}/reject`);
-      setMessage(response.data.message);
+      // Refresh the topics list to reflect the change
       fetchTopics();
     } catch (error) {
       console.error('An error occurred:', error);
@@ -46,8 +37,9 @@ function TopicManager() {
         {topics.map((topic) => (
           <li key={topic.id}>
             {topic.title} - Student: {topic.student_name} - Approved: {topic.approved ? 'Yes' : 'No'}
-            <button onClick={() => approveTopic(topic.id)}>Одобри</button>
-            <button onClick={() => rejectTopic(topic.id)}>Откажи</button>
+            {!topic.approved && (
+              <button onClick={() => approveTopic(topic.id)}>Одобри</button>
+            )}
           </li>
         ))}
       </ul>

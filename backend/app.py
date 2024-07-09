@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
-from resources import UserRegister, UserLogin, TopicResource, AdminResource, TaskResource, AdminTopicManagementResource
+from resources import *
 from datetime import datetime
 import json
 
@@ -33,6 +33,7 @@ def create_app():
     api.add_resource(AdminResource, '/admin')
     api.add_resource(TaskResource, '/tasks')
     api.add_resource(AdminTopicManagementResource, '/admin/topics/<int:topic_id>/<string:action>')
+    api.add_resource(UserDetailsResource, '/user/whoami')
 
     # Create the database tables
     with app.app_context():

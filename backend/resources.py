@@ -38,6 +38,16 @@ class UserLogin(Resource):
         access_token = create_access_token(identity=user.id)
         return {'access_token': access_token}, 200
 
+class UserDetailsResource(Resource):
+    @jwt_required()
+    def get(self):
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if user:
+            return {'email': user.email, 'role': user.role}, 200
+        else:
+            return {'message': 'User not found'}, 404
+
 class TopicResource(Resource):
     @jwt_required()
     def get(self):

@@ -11,7 +11,7 @@ def create_app():
     return app
 
 def add_student():
-    email = "milchevdimitar@gmail.com"
+    email = "dimitar.v.milchev.2020@gmail.com"
     existing_user = User.query.filter_by(email=email).first()
     if existing_user is not None:
         print(f"A user with the email {email} already exists.")
@@ -20,15 +20,15 @@ def add_student():
     new_student = User(
         email=email,
         password=generate_password_hash("123"),
-        role="supervisor"
+        role="student"
     )
     db.session.add(new_student)
     db.session.commit()
     print(f"Added new student with email {email}.")
 
 def add_task():
-    title = "Задача 2"
-    student_id = 1
+    title = "Задача 3"
+    student_id = 6
     deadline = datetime.now()  # Example deadline value, adjust as necessary
     existing_task = Task.query.filter_by(title=title).first()
     if existing_task is not None:
@@ -43,6 +43,16 @@ def add_task():
     db.session.add(new_task)
     db.session.commit()
     print(f"Added new task with title {title}.")
+
+def delete_topic_by_id(topic_id):
+    topic = Topic.query.get(topic_id)
+    if topic is None:
+        print(f"Topic with ID {topic_id} does not exist.")
+        return
+
+    db.session.delete(topic)
+    db.session.commit()
+    print(f"Deleted topic with ID {topic_id}.")
 
 def print_all_tables():
     users = User.query.all()
@@ -64,6 +74,7 @@ def print_all_tables():
 app = create_app()
 
 with app.app_context():
-    add_student()
-    add_task()
+#    add_student()
+#    add_task()
+#    delete_topic_by_id()
     print_all_tables()

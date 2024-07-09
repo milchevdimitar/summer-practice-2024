@@ -1,46 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Dashboard.css';
-import { fetchTasks } from '../services/taskService.js';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api.js';
+import { logout } from '../services/auth';
+import { fetchUserDetails } from '../services/fetchUserDetails.js';
 
 function Dashboard() {
-  const [tasks, setTasks] = useState([]);
+  const [user, setUser] = useState({ email: '', role: '' });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getTasks = async () => {
-      let tasks = await fetchTasks();
-      if (!Array.isArray(tasks)) {
-        tasks = [];
+    const fetchUserData = async () => {
+      try {
+        const userDetails = await fetchUserDetails();
+        if (userDetails) {
+          setUser(userDetails);
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
       }
-      setTasks(tasks);
     };
-    getTasks();
-  }, []);
+    fetchUserData();
+  }, []); // Празен масив гарантира, че useEffect ще се изпълни само веднъж
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
-    <div className="dashboard">
-      <h2>Начало</h2>
-      <p>Добре дошли в платформата за дипломни работи!</p>
-      <div className="dashboard-content">
-        <section className="dashboard-section">
-          <h3>Вашите задачи</h3>
-          {tasks.length > 0 ? (
-            <ul>
-              {tasks.map((task) => (
-                <li key={task.id}>{task.title} - {task.description}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Няма текущи задачи.</p>
-          )}
-        </section>
-        <section className="dashboard-section">
-          <h3>Последни новини</h3>
-          <p>Останете информирани за последните новини и събития.</p>
-          {/* Add more content or components related to news */}
-        </section>
-      </div>
+    <div>
+      <p>Logged in as {user.email}, {user.role}</p>
+      <button onClick={handleLogout}>Logout</button>
+      <section>
+        <h2>Новини</h2>
+        <p>Тук ще намерите последните новини.</p>
+      </section>
     </div>
   );
 }
