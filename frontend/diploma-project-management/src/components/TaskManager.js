@@ -1,3 +1,4 @@
+// src/components/TaskManager.js
 import React, { useState, useEffect } from 'react';
 import '../styles/TaskManager.css';
 import { fetchTasks } from '../services/taskService';
@@ -16,14 +17,14 @@ useEffect(() => {
   getTasks();
 }, []);
   return (
-    <div>
+    <div className="container">
       <h2>Задачи и срокове</h2>
-      <ul>
+      <ul className="task-list">
         {tasks.map((task) => (
           <li key={task.id}>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
-            <p>Краен срок: {task.deadline}</p>
+            <p>Краен срок: {new Date(task.deadline).toLocaleDateString()}</p>
           </li>
         ))}
       </ul>

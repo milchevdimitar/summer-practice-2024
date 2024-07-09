@@ -1,10 +1,24 @@
-/* src/styles/taskManager.css */
+/* src/styles/TaskManager.css */
 
 .task-list {
     list-style: none;
     padding: 0;
 }
 
-.task-item {
-    margin-bottom: 10px;
+.task-list li {
+    background: #fff;
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-list h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.task-list p {
+    margin: 5px 0 0;
+    color: #666;
 }

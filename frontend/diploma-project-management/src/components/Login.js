@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../services/auth';
 import '../styles/Login.css';
+import { login } from '../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -25,22 +25,23 @@ function Login() {
     };
 
   return (
-    <div>
+    <div className="form-container">
       <h2>Вход</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Имейл:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Парола:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <br />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Вход</button>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }
