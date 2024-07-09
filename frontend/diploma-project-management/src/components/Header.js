@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logout = () => {
     localStorage.removeItem('access_token');
@@ -11,7 +12,9 @@ function Header() {
     navigate('/login');
   };
 
-  return (
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/register';
+
+  return showHeader ? (
     <header>
       <h1>Платформа за дипломни работи</h1>
       <nav>
@@ -24,7 +27,7 @@ function Header() {
         </ul>
       </nav>
     </header>
-  );
+  ) : null;
 }
 
 export default Header;
