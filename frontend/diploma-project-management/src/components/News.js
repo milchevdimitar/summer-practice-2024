@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import fetchNews from '../services/fetchNews';
+import ReactMarkdown from 'react-markdown';
+import '../styles/News.css';
+import '../styles/global.css';
 
 const News = () => {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    const fetchNews = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('/api/news');
-        setNews(response.data);
+        console.log('Fetching news...');
+        const data = await fetchNews();
+        console.log('News fetched:', data);
+        setNews(data.news);
       } catch (error) {
         console.error('Error fetching news:', error);
       }
     };
 
-    fetchNews();
+    fetchData();
   }, []);
 
   return (
@@ -26,7 +31,7 @@ const News = () => {
             <li key={article.id}>
               <h2>{article.title}</h2>
               <p>{article.date_posted}</p>
-              <div>{article.content}</div>
+              <ReactMarkdown>{article.content}</ReactMarkdown>
             </li>
           ))}
         </ul>

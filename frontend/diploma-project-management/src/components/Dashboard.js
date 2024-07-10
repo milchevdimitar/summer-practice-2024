@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import News from './News';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../services/auth';
-import { fetchUserDetails } from '../services/fetchUserDetails.js';
+import { logout, login } from '../services/auth';
+import { fetchUserDetails } from '../services/fetchUserDetails';
 
 function Dashboard() {
   const [user, setUser] = useState({ email: '', role: '' });
@@ -19,7 +20,7 @@ function Dashboard() {
       }
     };
     fetchUserData();
-  }, []); // Празен масив гарантира, че useEffect ще се изпълни само веднъж
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -32,7 +33,7 @@ function Dashboard() {
       <button onClick={handleLogout}>Logout</button>
       <section>
         <h2>Новини</h2>
-        <p>Тук ще намерите последните новини.</p>
+        <News /> {/* This line adds the News component to the Dashboard */}
       </section>
     </div>
   );

@@ -141,7 +141,7 @@ class NewsResource(Resource):
     def get(self):
         news = News.query.all()
         news_list = [
-            {'id': item.id, 'title': item.title, 'date_posted': item.date_posted.isoformat()}
+            {'id': item.id, 'title': item.title, 'date_posted': item.date_posted.isoformat(), 'content': item.md_content}
             for item in news
         ]
         return {'news': news_list}, 200

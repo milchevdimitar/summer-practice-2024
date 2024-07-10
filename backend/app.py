@@ -3,9 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate  # Import Flask-Migrate
 from config import Config
 from models import *
-from flask_migrate import Migrate
 from resources import *
 from datetime import datetime
 import json
@@ -26,6 +26,7 @@ def create_app():
     db.init_app(app)
     jwt = JWTManager(app)
     api = Api(app)
+    migrate = Migrate(app, db)  # Initialize Flask-Migrate
 
     # Register the resources
     api.add_resource(UserRegister, '/register')
