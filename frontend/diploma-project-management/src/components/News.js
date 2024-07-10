@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import fetchNews from '../services/fetchNews';
-import ReactMarkdown from 'react-markdown';
+import { Markdown } from 'react-showdown';
 import '../styles/News.css';
 import '../styles/global.css';
 
@@ -24,14 +24,14 @@ const News = () => {
 
   return (
     <div>
-      <h1>News</h1>
+      <h1>Новини</h1>
       {news.length > 0 ? (
         <ul>
           {news.map((article) => (
             <li key={article.id}>
               <h2>{article.title}</h2>
               <p>{article.date_posted}</p>
-              <ReactMarkdown>{article.content}</ReactMarkdown>
+              <Markdown markdown={article.content} />
             </li>
           ))}
         </ul>

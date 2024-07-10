@@ -2,11 +2,7 @@
   max-width: 90vw;
   margin: 0 auto;
   padding: 20px;
-}
-
-.News ul {
-  list-style-type: none;
-  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .News li {
@@ -14,28 +10,14 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  overflow-wrap: break-word; /* Ensure text within list items does not overflow */
 }
 
-.News h2 {
-  margin-top: 0;
-  color: #333;
+.News h2, .News p {
+  overflow-wrap: break-word; /* Apply text wrapping to headers and paragraphs */
 }
 
-.News p {
-  color: #666;
-}
-
-.News article {
-  line-height: 1.6;
-}
-
-@media (max-width: 600px) {
-  .News {
-    max-width: 100vw;
-    padding: 10px;
-  }
-
-  .News h2 {
-    font-size: 1.2rem;
-  }
+/* If you have a specific class or element for the Markdown content, apply these styles */
+.MarkdownContent {
+  overflow-wrap: break-word;
 }

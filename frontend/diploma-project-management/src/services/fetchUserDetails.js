@@ -2,7 +2,7 @@ import api from './api';
 
 export const fetchUserDetails = async () => {
     try {
-        const response = await api.get('/user/whoami');
+        const response = await api.get('/whoami');
         if (response.status === 200) {
             return response.data;
         } else {
