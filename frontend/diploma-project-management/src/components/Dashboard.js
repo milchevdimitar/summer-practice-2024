@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout, login } from '../services/auth';
 import { fetchUserDetails } from '../services/fetchUserDetails';
+import '../styles/Dashboard.css';
 
 function Dashboard() {
 return (

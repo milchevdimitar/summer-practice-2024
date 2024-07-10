@@ -10,21 +10,23 @@ function Header() {
   const [user, setUser] = useState({ email: '', role: '' });
 
     useEffect(() => {
-      const fetchUserData = async () => {
-        try {
-          const userDetails = await fetchUserDetails();
-          if (userDetails) {
-            setUser(userDetails);
+      if (location.pathname !== '/login' && location.pathname !== '/register') {
+        const fetchUserData = async () => {
+          try {
+            const userDetails = await fetchUserDetails();
+            if (userDetails) {
+              setUser(userDetails);
+            }
+          } catch (error) {
+            console.error("Error fetching user details:", error);
           }
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-        }
-      };
+        };
 
-      const intervalId = setInterval(fetchUserData, 200);
+        const intervalId = setInterval(fetchUserData, 200);
 
-      return () => clearInterval(intervalId);
-    }, []);
+        return () => clearInterval(intervalId);
+      }
+    }, [location.pathname]);
 
   const logout = () => {
     localStorage.removeItem('access_token');
