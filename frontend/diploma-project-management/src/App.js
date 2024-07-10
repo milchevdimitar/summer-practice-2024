@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import TaskManager from './components/TaskManager';
 import TopicManager from './components/TopicManager';
+import News from './components/News';
 
 const setAuthToken = (token) => {
     if (token) {
@@ -37,6 +38,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/tasks" element={<TaskManager />} />
               <Route path="/topic-manager" element={<TopicManager />} />
+              <Route path="/news" element={<News />} />
             </Routes>
             <Footer />
           </div>

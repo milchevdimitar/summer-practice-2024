@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Topic, Task
+from models import db, User, Topic, Task, News
 
 class UserRegister(Resource):
     def post(self):
@@ -135,3 +135,13 @@ class TaskResource(Resource):
             return {'tasks': tasks_list}, 200
         else:
             return {'message': 'Access denied'}, 403
+
+class NewsResource(Resource):
+    @jwt_required()
+    def get(self):
+        news = News.query.all()
+        news_list = [
+            {'id': item.id, 'title': item.title, 'date_posted': item.date_posted.isoformat()}
+            for item in news
+        ]
+        return {'news': news_list}, 200

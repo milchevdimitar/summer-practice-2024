@@ -1,5 +1,5 @@
 from flask import Flask
-from models import db, User, Topic, Task
+from models import *
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
@@ -71,10 +71,32 @@ def print_all_tables():
     for task in tasks:
         print(f"ID: {task.id}, Title: {task.title}, Student ID: {task.student_id}")
 
+    print("\nNews:")
+    news = News.query.all()
+    for n in news:
+        print(f"ID: {n.id}, Title: {n.title}, Date Posted: {n.date_posted}")
+
+def add_news():
+    try:
+        title = "Новина 1"
+        md_content = "Това е съдържанието на новина 1."
+        date_posted = datetime.now()
+        new_news = News(
+            title=title,
+            md_content=md_content,
+            date_posted=date_posted
+        )
+        db.session.add(new_news)
+        db.session.commit()
+        print(f"Added new news with title {title}.")
+    except Exception as e:
+        print(f"Failed to add news: {e}")
+
 app = create_app()
 
 with app.app_context():
 #    add_student()
 #    add_task()
 #    delete_topic_by_id()
+    add_news()
     print_all_tables()

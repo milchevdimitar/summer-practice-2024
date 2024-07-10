@@ -1,5 +1,6 @@
 # backend/models.py
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -35,3 +36,9 @@ class Task(db.Model):
     description = db.Column(db.Text, nullable=True)
     deadline = db.Column(db.DateTime, nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    md_content = db.Column(db.Text, nullable=False)  # Store Markdown content directly
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
