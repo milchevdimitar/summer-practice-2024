@@ -24,3 +24,19 @@
 <p align="center">
   <img src="./.readmeimages/BPMN_Diagram.png" alt="BPMN Diagram">
 </p>
+
+<p align="center">
+  <img src="./.readmeimages/Front_Page.jpeg" alt="Main page">
+</p>
+
+<p align="center">
+  <img src="./.readmeimages/FreeHeads.jpg" alt="Free Heads">
+<p>
+
+<p align="center">
+  <img src="./.readmeimages/HeadTeacher&Topic.jpg" alt="Topic selection">
+<p>
+
+<p align="center">
+  <img src="./.readmeimages/Tasks.jpeg" alt="Task management">
+<p>

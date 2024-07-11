@@ -37,6 +37,7 @@ def create_app():
     api.add_resource(AdminTopicManagementResource, '/admin/topics/<int:topic_id>/<string:action>')
     api.add_resource(UserDetailsResource, '/whoami')
     api.add_resource(NewsResource, '/news')
+    api.add_resource(AdvisorResource, '/advisor')
 
     # Create the database tables
     with app.app_context():

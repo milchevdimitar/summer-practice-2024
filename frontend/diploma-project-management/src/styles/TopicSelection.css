@@ -1,10 +1,71 @@
-/* src/styles/topicSelection.css */
+/* src/styles/TopicSelection.css */
 
-.topic-list {
-    list-style: none;
-    padding: 0;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
 }
 
-.topic-item {
-    margin-bottom: 10px;
+.form-container {
+  width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-group textarea {
+  height: 150px;
+  resize: none;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button[type="submit"]:hover {
+  background-color: #007bff;
+}
+
+button[type="submit"]:active {
+  transform: scale(0.98);
 }

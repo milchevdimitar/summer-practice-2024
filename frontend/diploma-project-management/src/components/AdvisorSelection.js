@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { fetchSupervisors } from '../services/fetchHeads';
 import '../styles/AdvisorSelection.css';
 
 function AdvisorSelection() {
   const [advisors, setAdvisors] = useState([]);
 
   useEffect(() => {
-    // Логика за зареждане на свободните ръководители
+    const fetchAdvisors = async () => {
+      const supervisors = await fetchSupervisors();
+      setAdvisors(supervisors);
+    };
+    fetchAdvisors();
   }, []);
 
   return (
-    <div>
-      <h2>Избор на ръководител</h2>
-      <ul>
-        {advisors.map((advisor) => (
-          <li key={advisor.id}>
-            <h3>{advisor.name}</h3>
-            <p>{advisor.bio}</p>
-            <p>{advisor.tags.join(', ')}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="container">
+        <h2>Свободни научни ръководители</h2>
+        <ul className="advisor-list">
+            {advisors.map((advisor) => (
+                <li key={advisor.id}>
+                    <p>{advisor.email}</p>
+                    <p>Технологии: #SQL #Python #JavaScript</p>
+                    <button>Избери</button>
+                </li>
+            ))}
+        </ul>
     </div>
   );
 }

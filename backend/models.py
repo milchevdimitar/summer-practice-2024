@@ -10,7 +10,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     role = db.Column(db.String(20), nullable=False)
-    # Specify foreign_keys in relationships to resolve ambiguity
     topics = db.relationship('Topic', backref='student', lazy=True, foreign_keys='Topic.student_id')
     tasks = db.relationship('Task', backref='student', lazy=True, foreign_keys='Task.student_id')
     supervised_tasks = db.relationship('Task', backref='supervisor', lazy=True, foreign_keys='Task.supervisor_id')
@@ -32,7 +31,6 @@ class Topic(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     approved = db.Column(db.Boolean, default=False)
     supervisor_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    # Explicitly specify the relationship and foreign_keys to resolve ambiguity
     supervisor = db.relationship('User', foreign_keys=[supervisor_id], backref='supervised_topics')
 
 class Task(db.Model):

@@ -155,3 +155,13 @@ class NewsResource(Resource):
             for item in news
         ]
         return {'news': news_list}, 200
+
+class AdvisorResource(Resource):
+    @jwt_required()
+    def get(self):
+        supervisors = User.query.filter_by(role='supervisor').all()
+        supervisors_list = [
+            {'id': supervisor.id, 'email': supervisor.email}
+            for supervisor in supervisors
+        ]
+        return {'supervisors': supervisors_list}, 200
