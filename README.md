@@ -25,6 +25,7 @@
   <img src="./.readmeimages/BPMN_Diagram.png" alt="BPMN Diagram">
 </p>
 
+## Потребителски интерфейс
 <p align="center">
   <img src="./.readmeimages/Front_Page.jpeg" alt="Main page">
 </p>
