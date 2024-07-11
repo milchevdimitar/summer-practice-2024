@@ -23,7 +23,6 @@ function TopicManager() {
     try {
       const response = await api.put(`/admin/topics/${topicId}/approve`);
       setMessage(response.data.message);
-      // Refresh the topics list to reflect the change
       fetchTopics();
     } catch (error) {
       console.error('An error occurred:', error);

@@ -120,17 +120,27 @@ class TaskResource(Resource):
         if user.is_student():
             tasks = Task.query.filter_by(student_id=user_id).all()
             tasks_list = [
-                {'id': task.id, 'title': task.title, 'deadline': task.deadline.isoformat()}
+                {
+                    'id': task.id,
+                    'title': task.title,
+                    'deadline': task.deadline.isoformat(),
+                    'description': task.description,
+                    'supervisor': User.query.get(task.supervisor_id).email if User.query.get(task.supervisor_id) else "No supervisor"
+                }
                 for task in tasks
             ]
             return {'tasks': tasks_list}, 200
         elif user.is_supervisor():
-            tasks = Task.query.all()
+            supervised_tasks = Task.query.filter_by(supervisor_id=user_id).all()
             tasks_list = [
-                {'id': task.id,
-                 'title': task.title,
-                 'deadline': task.deadline.isoformat()}
-                for task in tasks
+                {
+                    'id': task.id,
+                    'title': task.title,
+                    'deadline': task.deadline.isoformat(),
+                    'description': task.description,
+                    'student': User.query.get(task.student_id).email if User.query.get(task.student_id) else "No student"
+                }
+                for task in supervised_tasks
             ]
             return {'tasks': tasks_list}, 200
         else:
