@@ -38,5 +38,5 @@
 <p>
 
 <p align="center">
-  <img src="./.readmeimages/Tasks.jpeg" alt="Task management">
+  <img src="./.readmeimages/Tasks.jpg" alt="Task management">
 <p>
